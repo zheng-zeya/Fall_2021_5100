@@ -20,8 +20,7 @@ public class Main {
         Movie movie6 = new Movie("movie6", date6);
         Movie movie7 = new Movie("movie7", date7);
         Date year2000 = new GregorianCalendar(2000, Calendar.FEBRUARY, 1).getTime();
-        Date year1900 = new GregorianCalendar(1900, Calendar.FEBRUARY, 1).getTime();
-        //  Date timeTest = new GregorianCalendar(1995, Calendar.FEBRUARY, 1).getTime();
+        Date year1990 = new GregorianCalendar(1990, Calendar.FEBRUARY, 1).getTime();
 
         Genre Romantic = new Genre("Romantic");
         Genre Suspicious = new Genre("Suspicious");
@@ -48,30 +47,34 @@ public class Main {
         generes.add(Suspicious);
         netflix.genres.addAll(generes);
 
-
+        System.out.println("Add Classic ===============");
         netflix.genres.stream()
                 .flatMap(genre -> genre.getMovies().stream())
-                .sorted((m1, m2) -> m1.getReleaseDate().compareTo(m2.getReleaseDate()))
                 .filter(movie -> movie.getReleaseDate().before(year2000))
                 .forEach(movie -> System.out.println("Classic".concat(movie.getTitle())));
 
+        System.out.println("Latest 3 movies===================");
         netflix.genres.stream()
                 .flatMap(genre -> genre.getMovies().stream())
-                .sorted((m1, m2) -> m1.getReleaseDate().compareTo(m2.getReleaseDate()))
+                .sorted((m1, m2) -> m2.getReleaseDate().compareTo(m1.getReleaseDate())).limit(3)
                 .forEach(movie -> System.out.println("Classic".concat(movie.getTitle())));
 
-        Predicate<Movie> after1900 = movie -> movie.getReleaseDate().after(year1900);
+        Predicate<Movie> after1990 = movie -> movie.getReleaseDate().after(year1990);
         Predicate<Movie> before2000 = movie -> movie.getReleaseDate().before(year2000);
 
-        printTheListByYearRange(Allmovies, "between 1900-2000 years", after1900, before2000);
+        printTheListByYearRange(Allmovies, "=====Between 1990 and 2000====== ", after1990, before2000);
 
-        Collections.sort(Allmovies, (m1, m2) -> m1.getTitle().compareTo(m2.getTitle()));
-
-        System.out.println("Add release year in the  title");
+        System.out.println("======Add release year in the title======");
         Function<Movie, String> addYearToTitle = (Movie movie) -> {
             return movie.getReleaseDate() + movie.getTitle();
         };
         System.out.println(addYearToTitle.apply(movie1));
+
+        System.out.println("===========Comparator==========");
+        Collections.sort(Allmovies, (m1, m2) -> m1.getTitle().compareTo(m2.getTitle()));
+        for (Movie m: Allmovies) {
+            System.out.println( m.getTitle());
+        }
 
     }
 

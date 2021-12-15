@@ -11,9 +11,9 @@ public class Movie {
 
     public Movie(String title, Date releaseDate) {
         this.title = title;
-        this.releaseDate = new Date();
-        this.actors = null;
-        this.director = null;
+        this.releaseDate = releaseDate;
+        this.actors = actors;
+        this.director = director;
     }
 
     public String getTitle() {
